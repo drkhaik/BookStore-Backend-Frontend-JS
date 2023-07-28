@@ -1,8 +1,10 @@
-
+import './footer.scss';
 
 const Footer = () => {
     return (
-        <div> Footer</div>
+        <footer>
+            <div>React Test Fresher &copy; Drkhaik Dev</div>
+        </footer>
     )
 }
 
