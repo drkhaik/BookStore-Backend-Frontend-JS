@@ -17,10 +17,36 @@ const handleLogout = () => {
     return axios.post("/api/v1/auth/logout")
 }
 
+const handleGetUserWithPaginate = (query) => {
+    return axios.get(`/api/v1/user?${query}`);
+}
+
+const handleCreateNewUser = (fullName, email, password, phone) => {
+    return axios.post(`/api/v1/user`, { fullName, email, password, phone });
+}
+
+const handleBulkCreateUser = (data) => {
+    return axios.post(`api/v1/user/bulk-create`, data);
+}
+
+const handleUpdateUser = (_id, fullName, phone) => {
+    return axios.put(`/api/v1/user`, { _id, fullName, phone });
+}
+
+const handleDeleteUser = (_id) => {
+    return axios.delete(`/api/v1/user/${_id}`);
+}
+
+
 
 export {
     handleRegister,
     handleLogin,
     fetchAccount,
     handleLogout,
+    handleGetUserWithPaginate,
+    handleCreateNewUser,
+    handleBulkCreateUser,
+    handleUpdateUser,
+    handleDeleteUser,
 }

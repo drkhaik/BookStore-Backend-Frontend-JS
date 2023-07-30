@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Col, Divider, Row, Dropdown, Space, Drawer, Badge, message } from 'antd';
+import { Col, Divider, Row, Dropdown, Space, Drawer, Badge, message, Avatar } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { FaReact } from 'react-icons/fa';
 import { FiShoppingCart } from 'react-icons/fi';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 // import { logoutAction } from '../../redux/authentication/authenticationSlice';
 import { handleLogoutReduxThunk } from '../../redux/authentication/authenticationSlice';
 import './header.scss';
@@ -21,16 +21,24 @@ const Header = () => {
         message.success("Log out successfully!");
         navigate("/");
     }
-    const items = [
+    let items = [
         {
             label: <a href="">Quản lý tài khoản</a>,
-            key: '0',
+            key: 'account',
         },
         {
             label: <p onClick={() => handleLogoutAction()} style={{ margin: 0, cursor: 'pointer' }}>Đăng xuất</p>,
-            key: '1',
+            key: 'logout',
         },
     ];
+    if (user.role === 'ADMIN') {
+        items.unshift({
+            label: <Link to="/admin">Trang quản trị</Link>,
+            key: 'admin'
+        })
+    }
+
+    const srcAvt = `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${user.avatar}`;
 
     return (
         <>
@@ -69,7 +77,7 @@ const Header = () => {
                                     <Dropdown menu={{ items }} trigger={['click']}>
                                         <a onClick={(e) => e.preventDefault()}>
                                             <Space>
-                                                Welcome {user?.fullName}
+                                                <Avatar src={srcAvt} /> {user?.fullName}
                                                 <DownOutlined />
                                             </Space>
                                         </a>
@@ -89,12 +97,25 @@ const Header = () => {
                 open={openDrawer}
 
             >
+                {user.role === 'ADMIN'
+                    ?
+                    <>
+                        <p>Trang quản trị</p>
+                        <Divider />
+                    </>
+                    :
+                    <>
+
+                    </>
+                }
                 <p>Quản lý tài khoản</p>
                 <Divider />
                 <p>Đăng xuất</p>
                 <Divider />
 
             </Drawer>
+
+
         </>
     )
 }

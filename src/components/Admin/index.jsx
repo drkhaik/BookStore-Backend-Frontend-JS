@@ -12,12 +12,13 @@ import {
   LeftSquareTwoTone
 
 } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme, Dropdown, Space, message } from 'antd';
+import { Breadcrumb, Layout, Menu, theme, Dropdown, Space, message, Avatar } from 'antd';
 import './LayoutAdmin.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
 // import { logoutAction } from '../../redux/authentication/authenticationSlice';
 import { handleLogoutReduxThunk } from '../../redux/authentication/authenticationSlice';
+
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -67,15 +68,20 @@ const LayoutAdmin = () => {
     navigate("/");
   }
   const [collapsed, setCollapsed] = useState(false);
+  const srcAvt = `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${user.avatar}`;
 
   const itemsDropdown = [
     {
+      label: <Link to="/">Trang chủ</Link>,
+      key: 'home'
+    },
+    {
       label: <a href="">Quản lý tài khoản</a>,
-      key: '0',
+      key: 'account',
     },
     {
       label: <p onClick={() => handleLogoutAction()} style={{ margin: 0 }}>Đăng xuất</p>,
-      key: '1',
+      key: 'logout',
     },
   ];
 
@@ -112,7 +118,7 @@ const LayoutAdmin = () => {
           <Dropdown menu={{ items: itemsDropdown }} trigger={['click']}>
             <a onClick={(e) => e.preventDefault()}>
               <Space>
-                Welcome {user?.fullName} <Space />
+                <Avatar src={srcAvt} /> {user?.fullName} <Space />
                 <DownOutlined />
               </Space>
             </a>
@@ -123,10 +129,9 @@ const LayoutAdmin = () => {
           <Outlet />
         </Content>
 
-        <Footer style={{ textAlign: 'center', }}>
-          Ant Design ©2023 Created by Ant UED  <HeartTwoTone twoToneColor="#eb2f96" />
-        </Footer>
+        {/* <HeartTwoTone twoToneColor="#eb2f96" /> */}
       </Layout>
+
     </Layout>
   );
 };

@@ -20,6 +20,7 @@ import AdminPage from './pages/admin';
 import ProtectedRoute from './components/ProtectedRoute';
 import LayoutAdmin from './components/Admin';
 import OrderPage from './pages/order';
+import UserTable from './components/Admin/User/UserTable';
 
 
 const Layout = () => {
@@ -99,7 +100,7 @@ export default function App() {
         },
         {
           path: "user/",
-          element: <ContactPage />,
+          element: <UserTable />,
         },
         {
           path: "book/",
