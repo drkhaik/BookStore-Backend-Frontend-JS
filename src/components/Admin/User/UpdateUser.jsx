@@ -58,7 +58,6 @@ const UpdateUser = (props) => {
                         labelCol={{ span: 24 }}
                         label="Id"
                         name="_id"
-                        rules={[{ required: true, message: 'Please input your fullname!' }]}
                     >
                         <Input />
                     </Form.Item>

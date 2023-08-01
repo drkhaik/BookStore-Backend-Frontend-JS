@@ -21,6 +21,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import LayoutAdmin from './components/Admin';
 import OrderPage from './pages/order';
 import UserTable from './components/Admin/User/UserTable';
+import BookTable from './components/Admin/Book/BookTable';
 
 
 const Layout = () => {
@@ -104,7 +105,7 @@ export default function App() {
         },
         {
           path: "book/",
-          element: <BookPage />,
+          element: <BookTable />,
         },
         {
           path: "order/",

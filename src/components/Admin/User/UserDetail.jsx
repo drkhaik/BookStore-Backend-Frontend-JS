@@ -20,7 +20,7 @@ const UserDetail = (props) => {
                 <Descriptions.Item label="Full name" span={4}>{userInfo.fullName}</Descriptions.Item>
                 <Descriptions.Item label="Email" span={4}>{userInfo.email}</Descriptions.Item>
                 <Descriptions.Item label="Phone" span={4}>
-                    2019-04-24 18:00:00
+                    {userInfo.phone}
                 </Descriptions.Item>
                 <Descriptions.Item label="Role" span={4}>
                     <Badge status="processing" text={userInfo.role} />

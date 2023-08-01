@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button, Modal, Form, Input, Divider, message, notification } from 'antd';
 import { useForm } from 'antd/es/form/Form';
-import { handleCreateNewUser } from '../../../services/api';
+import { handleCreateBook } from '../../../services/api';
 
 const AddNewUser = (props) => {
     const { openModal, setOpenModal, fetchUserWithPagination } = props;
@@ -39,7 +39,7 @@ const AddNewUser = (props) => {
                 onCancel={() => setOpenModal(false)}
                 okText='Add'
                 confirmLoading={isSubmit}
-                maskClosable={false}
+            // maskClosable={false}
             >
                 <Divider />
                 <Form
