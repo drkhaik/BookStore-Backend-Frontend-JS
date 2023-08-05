@@ -78,6 +78,10 @@ const handleDeleteBook = (_id) => {
     return axios.delete(`/api/v1/book/${_id}`);
 }
 
+const handleGetDetailBookById = (id) => {
+    return axios.get(`/api/v1/book/${id}`);
+}
+
 export {
     handleRegister,
     handleLogin,
@@ -95,4 +99,5 @@ export {
     handleCreateBook,
     handleUpdateBook,
     handleDeleteBook,
+    handleGetDetailBookById,
 }

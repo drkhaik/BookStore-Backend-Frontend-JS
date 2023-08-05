@@ -77,7 +77,7 @@ const Header = () => {
                                     <Dropdown menu={{ items }} trigger={['click']}>
                                         <a onClick={(e) => e.preventDefault()}>
                                             <Space>
-                                                <Avatar src={srcAvt} /> {user?.fullName}
+                                                <Avatar className='avt' src={srcAvt} /> {user?.fullName}
                                                 <DownOutlined />
                                             </Space>
                                         </a>
@@ -95,7 +95,7 @@ const Header = () => {
                 placement={'left'}
                 onClose={() => setOpenDrawer(false)}
                 open={openDrawer}
-
+                width={"80vw"}
             >
                 {user.role === 'ADMIN'
                     ?
@@ -105,7 +105,6 @@ const Header = () => {
                     </>
                     :
                     <>
-
                     </>
                 }
                 <p>Quản lý tài khoản</p>
@@ -114,7 +113,6 @@ const Header = () => {
                 <Divider />
 
             </Drawer>
-
 
         </>
     )

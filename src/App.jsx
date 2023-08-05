@@ -22,18 +22,19 @@ import LayoutAdmin from './components/Admin';
 import OrderPage from './pages/order';
 import UserTable from './components/Admin/User/UserTable';
 import BookTable from './components/Admin/Book/BookTable';
-
+import './App.scss';
 
 const Layout = () => {
   return (
-    <>
-      <Header />
-      <Outlet />
-      <Footer />
-    </>
+    <div className='wrapper'>
+      <div className='container'>
+        <Header />
+        <Outlet />
+        <Footer />
+      </div>
+    </div>
   )
 }
-
 
 // const LayoutAdmin = () => {
 //   const isAdminRoute = window.location.pathname.startsWith('/admin');
@@ -83,7 +84,7 @@ export default function App() {
           element: <ContactPage />,
         },
         {
-          path: "book/",
+          path: "book/:slug",
           element: <BookPage />,
         },
       ],

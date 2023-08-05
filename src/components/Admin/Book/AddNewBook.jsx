@@ -26,6 +26,7 @@ const AddNewBook = (props) => {
     useEffect(() => {
         const getBookCategory = async () => {
             const res = await handleGetBookCategory();
+
             if (res && res.data) {
                 let d = res.data.map(item => {
                     return { label: item, value: item }
@@ -34,8 +35,10 @@ const AddNewBook = (props) => {
             }
         }
         getBookCategory();
-    }, [listCategory])
 
+    }, [])
+
+    // console.log("check render")
     // const onChange = (value) => {
     //     console.log(`selected ${value}`);
     // };
@@ -287,7 +290,7 @@ const AddNewBook = (props) => {
                                 label="Thumbnail"
                                 name="thumbnail"
                                 //https://www.cnblogs.com/Freya0607/p/15935728.html
-                                valuePropName="fileList"
+                                // valuePropName="fileList"
                                 rules={[{ required: true, message: 'Please upload the thumbnail!' }]}
                             >
                                 <Upload
@@ -316,7 +319,7 @@ const AddNewBook = (props) => {
                                 labelCol={{ span: 24 }}
                                 label="Upload Slider"
                                 name="slider"
-                                valuePropName="fileList"
+                            // valuePropName="fileList"
                             >
                                 <Upload
                                     name="slider"

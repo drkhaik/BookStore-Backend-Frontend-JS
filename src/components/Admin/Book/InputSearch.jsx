@@ -5,7 +5,7 @@ const InputSearch = (props) => {
     const [form] = Form.useForm();
 
     const onFinish = async (values) => {
-        console.log(values);
+        // console.log(values);
         let { mainText, author, category } = values;
         let query = "";
         if (mainText) {

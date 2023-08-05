@@ -37,8 +37,7 @@ const UpdateBook = (props) => {
             }
         }
         getBookCategory();
-
-    }, [listCategory])
+    }, [])
 
     useEffect(() => {
         if (bookInfo && bookInfo._id) {
@@ -170,7 +169,7 @@ const UpdateBook = (props) => {
     }
 
     const onFinish = async (values) => {
-        console.log("check value", values);
+        // console.log("check value 123", values);
         // return;
         let slider = dataSlider.map(item => item.name)
         const { mainText, author, price, category, quantity, sold } = values;
@@ -181,9 +180,9 @@ const UpdateBook = (props) => {
             "mainText": mainText,
             "author": author,
             "price": price,
-            "sold": sold,
-            "quantity": quantity,
             "category": category,
+            "quantity": quantity,
+            "sold": sold,
         };
         let res = await handleUpdateBook(d, values._id);
         if (res && res.data) {
@@ -328,7 +327,7 @@ const UpdateBook = (props) => {
                                 labelCol={{ span: 24 }}
                                 label="Thumbnail"
                                 name="thumbnail"
-                                valuePropName="fileList"
+                                // valuePropName="fileList"
                                 rules={[{ required: true, message: 'Please upload the thumbnail!' }]}
                             >
                                 <Upload
@@ -360,7 +359,7 @@ const UpdateBook = (props) => {
                                 labelCol={{ span: 24 }}
                                 label="Upload Slider"
                                 name="slider"
-                                valuePropName="fileList"
+                            // valuePropName="fileList"
                             >
                                 <Upload
                                     name="slider"

@@ -14,14 +14,17 @@ import moment from 'moment';
 
 const BookTable = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const [dataBook, setDataBook] = useState([]);
+
+    const [allDataBooks, setAllDataBooks] = useState([]);
     const [current, setCurrent] = useState(1);
-    const [pageSizeNumber, setPageSizeNumber] = useState(4);
+    const [pageSizeNumber, setPageSizeNumber] = useState(5);
     const [total, setTotal] = useState(0);
     const [filter, setFilter] = useState("");
     const [sortQuery, setSortQuery] = useState("&sort=-updatedAt");
-    const [openDetailBook, setOpenDetailBook] = useState(false);
+
     const [bookInfo, setBookInfo] = useState("");
+
+    const [openDetailBook, setOpenDetailBook] = useState(false);
     const [openModalAddBook, setOpenModalAddBook] = useState(false);
     const [openModalImportData, setOpenImportData] = useState(false);
     const [openModalUpdate, setOpenModalUpdate] = useState(false);
@@ -153,7 +156,7 @@ const BookTable = () => {
         }
         const res = await handleGetBookWithPaginate(query);
         if (res && res.data) {
-            setDataBook(res.data.result);
+            setAllDataBooks(res.data.result);
             setTotal(res.data.meta.total)
             setIsLoading(false);
         }
@@ -230,7 +233,7 @@ const BookTable = () => {
                 title={renderHeader}
                 loading={isLoading}
                 columns={columns}
-                dataSource={dataBook}
+                dataSource={allDataBooks}
                 onChange={onChange}
                 // components={}
                 pagination={

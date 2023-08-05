@@ -1,0 +1,206 @@
+.detail-book-page {
+    .detail-book-wrapper {
+        // margin: 0 10px;
+        // padding: 10px;
+        // background-color: #fff;
+
+        .detail-book-info{
+            .header-title{
+                margin-top: 10px;
+                .author{
+                    .author-name{
+                        color: #0d5cb6;
+                    }
+                }
+                .book-name{
+                    margin: 5px 4px;
+                    color: rgb(36, 36, 36);
+                    font-size: 24px;
+                    font-weight: 300;
+                    line-height: 32px;
+                    word-break: break-word;
+                }
+                .rating {
+                    font-size: 20px;
+                }   
+            }
+            .detail {
+                background-color: #fafafa;
+                height: auto;
+                padding: 1rem 0.5rem;
+                margin-bottom: 1rem;
+                .price-badge{
+                    margin-bottom: 1.2rem;
+                    .price{
+                        color: #ff424e;
+                        padding-top: 12px;
+                        font-size: 30px;
+                        margin-right: 1rem;
+                        font-weight: 500;
+                    }
+                    .old-price {
+                        font-weight: 200;
+                        font-size: 1rem;
+                        text-decoration: line-through;
+                    }
+                    .discount{
+                        color: #ff424e;
+                        font-size: 1rem;
+                    }
+                }
+                .shipping {
+                    padding: 5px;
+                    font-size: 15px;
+                    .ship-fee {
+                        margin-top: 0.8rem;
+                        padding: 0.5rem;
+                        border: 1px solid #cdc6c6;
+                        border-radius: 5px;
+                        color: green;
+                        font-size: 14px;
+                    }
+                }
+            }
+            .book-supplier {
+                .info-supplier{
+                    margin-bottom: 1rem;
+                    .rating {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-top: 1rem;
+                        .item {
+                            width: 30%;
+                            text-align: center;
+                            .sub-title{
+                                font-size: 11px;
+                                font-weight: normal;
+                                font-stretch: normal;
+                            }
+                        }
+                    }
+                }
+                .col{
+                    display: flex;
+                    justify-content: center;
+                    .button {
+                        border: 1px solid #0d5cb6;
+                        color: #0d5cb6;
+                        padding: 5px;
+                        span {
+                            font-size: 13px;
+                        }
+                    }
+                }
+                
+            }
+            .quantity {
+                padding: 10px 0;
+                display: flex;
+                align-items: center;
+        
+                .input-number {
+                    display: flex;
+        
+                    input {
+                        width: 50px;
+                        height: 32px;
+                        border-left: 0;
+                        border-right: 0;
+                        font-size: 16px;
+                        font-weight: 400;
+                        box-sizing: border-box;
+                        text-align: center;
+                        cursor: text;
+                        border-radius: 0;
+                        border: 1px solid rgba(0, 0, 0, 0.09);
+                        outline: none;
+                    }
+        
+                    button {
+                        outline: none;
+                        cursor: pointer;
+                        // border: 0;
+                        font-size: .875rem;
+                        font-weight: 300;
+                        line-height: 1;
+                        letter-spacing: 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: background-color .1s cubic-bezier(.4, 0, .6, 1);
+                        border: 1px solid rgba(0, 0, 0, .09);
+                        border-radius: 2px;
+                        background: transparent;
+                        color: rgba(0, 0, 0, .8);
+                        width: 32px;
+                        height: 32px;
+                    }
+                }
+            }
+            .buy {
+                display: flex;
+                gap: 20px;
+                padding: 20px 0;
+        
+                button {
+                    overflow: visible;
+                    outline: 0;
+                    background: #0b7ec1;
+                    color: #ffffff;
+                    border: 1px solid #61dafb;
+                    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .03);
+                    cursor: pointer;
+                    border-radius: 3px;
+                    font-size: 16px;
+                    height: 48px;
+                    padding: 0 20px;
+        
+                    &.now {
+                        color: #fff;
+                        position: relative;
+                        overflow: visible;
+                        outline: 0;
+                        background: #61dafb;
+                    }
+                }
+        
+                .cart {
+                    &:hover {
+                        background: #086da8;
+                    }
+        
+                    span {
+                        padding-left: 5px;
+                    }
+                }
+        
+                .now {
+                    &:hover {
+                        background: #21bce6;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.modal-gallery {
+    .active {
+        border: 3px solid #61dafb;
+        position: absolute;
+        width: 90px;
+        height: 90px;
+        box-sizing: border-box;
+        top: 0;
+    }
+
+    .img-normal {
+        cursor: pointer;
+    }
+}
+
+.original-image,
+.thumbnail-image {
+    cursor: pointer;
+}
