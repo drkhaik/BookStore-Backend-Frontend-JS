@@ -134,6 +134,7 @@ const BookTable = () => {
     };
 
     const searchBook = (querySearch) => {
+        setCurrent(1);
         setFilter(querySearch);
     }
 

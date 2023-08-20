@@ -130,6 +130,7 @@ const UserTable = () => {
     };
 
     const searchUser = (querySearch) => {
+        setCurrent(1);
         setFilter(querySearch);
     }
 
