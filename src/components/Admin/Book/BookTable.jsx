@@ -36,7 +36,6 @@ const BookTable = () => {
             title: 'Name',
             dataIndex: 'mainText',
             render: (text, record, index) => {
-                // console.log("check text, record, index", record)
                 return (
                     <>
                         <a href='#' onClick={() => {
@@ -71,7 +70,6 @@ const BookTable = () => {
             defaultSortOrder: 'descend',
             sorter: true,
             render: (text, record, index) => {
-                // console.log("check text, record, index", record)
                 return (
                     <>
                         {moment(record.updatedAt).format('DD-MM-YY HH:mm:ss')}
@@ -84,7 +82,6 @@ const BookTable = () => {
             title: 'Action',
             width: 100,
             render: (text, record, index) => {
-                // console.log("check text, record, index", record)
                 return (
                     <div style={{ textAlign: 'center' }}>
                         <EditTwoTone
@@ -121,11 +118,9 @@ const BookTable = () => {
 
 
     const onChange = (pagination, filters, sorter, extra) => {
-        // console.log('params', pagination, filters, sorter, extra);
         console.log('params sorter', sorter)
         if (pagination && pagination.current !== current) {
             setCurrent(pagination.current)
-            // console.log("check current", current)
         }
         if (pagination && pagination.pageSize !== pageSizeNumber) {
             setPageSizeNumber(pagination.pageSize)
@@ -134,7 +129,6 @@ const BookTable = () => {
         if (sorter && sorter.field) {
             const q = sorter.order === 'ascend' ? `&sort=${sorter.field}` : `&sort=-${sorter.field}`;
             setSortQuery(q);
-            // console.log("check query sorter", q)
         }
 
     };
@@ -148,15 +142,24 @@ const BookTable = () => {
         let query = `current=${current}&pageSize=${pageSizeNumber}`;
         if (filter) {
             query += `${filter}`;
-            // console.log("check query search", query);
         }
         if (sortQuery) {
             query += `${sortQuery}`;
-            // console.log("check query sort", query);
         }
         const res = await handleGetBookWithPaginate(query);
         if (res && res.data) {
-            setAllDataBooks(res.data.result);
+            let data = res.data.result;
+            let dataBooks = [];
+            // https://stackoverflow.com/questions/51703111/each-record-in-table-should-have-a-unique-key-prop-or-set-rowkey-to-an-uniqu
+            for (let index = 0; index < data.length; index++) {
+                const item = data[index];
+                const newItem = {
+                    ...item,
+                    key: index + 1,
+                };
+                dataBooks.push(newItem);
+            }
+            setAllDataBooks(dataBooks);
             setTotal(res.data.meta.total)
             setIsLoading(false);
         }
@@ -222,7 +225,6 @@ const BookTable = () => {
         )
     }
 
-    // let selectedScheduleTime = listAllScheduleTime.filter(item => item.isSelected === true);
     return (
         <>
             <InputSearch
@@ -235,7 +237,6 @@ const BookTable = () => {
                 columns={columns}
                 dataSource={allDataBooks}
                 onChange={onChange}
-                // components={}
                 pagination={
                     {
                         current: current, pageSize: pageSizeNumber, showSizeChanger: true, total: total,

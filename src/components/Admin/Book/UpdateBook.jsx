@@ -336,6 +336,7 @@ const UpdateBook = (props) => {
                                     className="avatar-uploader"
                                     maxCount={1}
                                     multiple={false}
+                                    // fileList={dataThumbnail}
                                     // showUploadList={false}
                                     customRequest={handleUploadFileThumbnail}
                                     beforeUpload={beforeUpload}
@@ -365,6 +366,7 @@ const UpdateBook = (props) => {
                                     name="slider"
                                     multiple
                                     listType="picture-card"
+                                    // fileList={dataSlider}
                                     customRequest={handleUploadFileSlider}
                                     beforeUpload={beforeUpload}
                                     onPreview={handlePreview}

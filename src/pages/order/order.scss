@@ -1,0 +1,221 @@
+
+.order-page {
+    margin: 0 2.2rem;
+    @media screen and (max-width:768px) {
+        margin: 0;
+    }
+    @media screen and (max-width:992px) {
+        margin: 0 1rem;
+    }
+    
+    .main-title{
+        text-transform: uppercase;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .progress-bar {
+        background: #fff;
+        padding: 8px 15px;
+        min-height: 3rem;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        // position: sticky;
+        // top: 20px;
+        // left: 0px;
+        // z-index: 6;
+    }
+    .order-page-body {
+        .content-left{
+            .thumbnail {
+                width: 5rem;
+                height: 5rem;
+            }
+            .book-name {
+                display: inline-block;
+                width: 22rem;
+                white-space: nowrap;
+                overflow: hidden !important;
+                text-overflow: ellipsis;
+            }
+        }
+        @media screen and (max-width:576px) {
+            .content-left{
+                .ant-table-cell{
+                    padding: 1.5rem 0.5rem;
+                }
+                margin-bottom: 1.5rem;
+                .thumbnail {
+                    width: 3.5rem;
+                    height: 3.5rem;
+                }
+                .book-name {
+                    width: 8rem;
+                }
+                .input-quantity {
+                    width: 3rem;
+                }
+            }
+        }
+        @media screen and (max-width:992px) {
+            .content-left{
+                margin-bottom: 2rem;
+                .ant-table-cell{
+                    padding: 1.5rem 0rem;
+                }
+                .book-name {
+                    width: 12rem;
+                }
+            }
+        }
+        @media screen and (min-width:1200px) and (max-width:12400px) {
+            .content-left{
+                margin-bottom: 2rem;
+                .book-name {
+                    width: 15rem;
+                }
+            }
+        }
+        .content-right{
+            // border: 1px solid green;
+            border-radius: 5px;
+            .info {
+                padding: 0.8rem;
+                // border: 1px solid red;
+                border-radius: 5px;
+                background: #fff;
+                margin-bottom: 1rem;
+                .title {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 0.5rem;
+                    span {
+                        font-size: 16px;
+                    }
+                    span:nth-child(2) {
+                        color: #0b74e5;
+                        font-size: 15px;
+                    }
+                }
+                .detail {
+                    // span {
+                    //     font-weight: bold;
+                    //     display: block;
+                    //     margin-bottom: 0.5rem;
+                    // }
+                    .address {
+                        color: #808089;
+                    }
+                }
+            }
+            // @media screen and (max-width:992px) {
+            //     .info{
+            //         padding: 1.5rem;
+            //     }
+            // }
+            .total {
+                padding: 0.8rem;
+                // border: 1px solid purple;
+                border-radius: 5px;
+                background: #fff;
+                .price-item {
+                    display: flex;
+                    flex-wrap: nowrap;
+                    -webkit-box-pack: justify;
+                    justify-content: space-between;
+                    margin-bottom: 10px;
+                    .text {
+                        font-weight: 300;
+                        color: #333333;
+                        display: inline-block;
+                    }
+                }
+                .price-total {
+                    display: flex;
+                    flex-wrap: nowrap;
+                    -webkit-box-pack: justify;
+                    justify-content: space-between;
+                    margin: 0px;
+                    .text {
+                        font-weight: 300;
+                        color: #333333;
+                        display: inline-block;
+                    }
+                    .content {
+                        text-align: right;
+                        .price {
+                            color: #fe3834;
+                            font-size: 22px;
+                            font-weight: 400;
+                            text-align: right;
+                        }
+                        .note {
+                            font-weight: 300;
+                            font-style: normal;
+                            display: block;
+                            font-size: 12px;
+                            color: rgb(51, 51, 51);
+                            margin-top: 3px;
+                        }
+                    }
+                }
+            }
+            .payment {
+                padding: 0.8rem;
+                // border: 1px solid red;
+                border-radius: 5px;
+                background: #fff;
+                margin-bottom: 1rem;
+                .title {
+                    color: rgb(56, 56, 61);
+                    font-weight: 700;
+                    font-size: 1rem;
+                    line-height: 24px;
+                    margin: 0px;
+                    border-bottom: 1px solid #e4e0e0;
+                    padding: 0.5rem;
+                }
+                .radio-box {
+                    display: flex;
+                    justify-content: flex-start;
+                    margin-top: 0.5rem;
+                    img{
+                        margin-right: 12px;
+                        object-fit: contain;
+                    }
+                }
+                .ant-space-item {
+                    padding: 0.5rem 0;
+                }
+            }
+            .btn {
+                color: rgb(255, 255, 255);
+                padding: 13px 10px;
+                text-align: center;
+                border-radius: 4px;
+                border: none;
+                width: 100%;
+                display: block;
+                cursor: pointer;
+                margin: 15px 0px 0px;
+                text-transform: capitalize;
+                &.buy {
+                    background: #ff424e;
+                } 
+                &.submit {
+                    // padding: 0.4rem;
+                    margin: 0;
+                    padding: 0;
+                }
+                &.order {
+                    background: #ff424e;
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+}
+
+.text-center{
+    text-align: center;
+}

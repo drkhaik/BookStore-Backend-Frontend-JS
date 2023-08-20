@@ -1,0 +1,43 @@
+.popover-cart {
+    .pop-cart-body {
+        .pop-cart-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            .book {
+                display: flex;
+                gap: 5px;
+                img{
+                    width: 50px;
+                    height: 50px;
+                }
+                .book-name {
+                    display: inline-block;
+                    width: 15rem;
+                    white-space: nowrap;
+                    overflow: hidden !important;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+        .pop-cart-footer {
+            border-top: 1px solid rgb(219, 212, 212);
+            display: flex;
+            justify-content: end;
+            button {
+                // height: 2.5rem;
+                margin-top: 0.5rem;
+                padding: 0.5rem 1.2rem;
+                color: #fff;
+                background-color: #61dafb;
+                outline: none;
+                border: 1px solid #e6dfdf;
+                font-size: 15px;
+                &:hover {
+                    // color: red;
+                    background-color: #36bade;
+                }
+            }
+        }
+    }
+}

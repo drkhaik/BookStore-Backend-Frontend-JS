@@ -42,6 +42,8 @@ const UpdateUser = (props) => {
                 onCancel={() => setOpenModalUpdate(false)}
                 okText='Update'
                 confirmLoading={isSubmit}
+                // https://stackoverflow.com/questions/61056421/warning-instance-created-by-useform-is-not-connect-to-any-form-element
+                forceRender={true} // form.setFieldsValue(dataUpdate)
             // maskClosable={false}
             >
                 <Divider />
@@ -75,7 +77,6 @@ const UpdateUser = (props) => {
                         labelCol={{ span: 24 }}
                         label="Email"
                         name="email"
-                        disable={true}
                         rules={[{ required: true, message: 'Please input your email!' }]}
                     >
                         <Input disabled />

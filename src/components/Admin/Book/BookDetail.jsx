@@ -88,19 +88,19 @@ const BookDetail = (props) => {
             column={1}
         >
             <Descriptions bordered>
-                <Descriptions.Item label="Id" span={4}>{bookInfo._id}</Descriptions.Item>
-                <Descriptions.Item label="Name" span={4}>{bookInfo.mainText}</Descriptions.Item>
-                <Descriptions.Item label="Category" span={4}>
+                <Descriptions.Item label="Id" span={3}>{bookInfo._id}</Descriptions.Item>
+                <Descriptions.Item label="Name" span={3}>{bookInfo.mainText}</Descriptions.Item>
+                <Descriptions.Item label="Category" span={3}>
                     <Badge status="processing" text={bookInfo.category} />
                 </Descriptions.Item>
-                <Descriptions.Item label="Author" span={4}>{bookInfo.author} </Descriptions.Item>
-                <Descriptions.Item label="Price" span={4}>{bookInfo.price} </Descriptions.Item>
+                <Descriptions.Item label="Author" span={3}>{bookInfo.author} </Descriptions.Item>
+                <Descriptions.Item label="Price" span={3}>{bookInfo.price} </Descriptions.Item>
                 <Descriptions.Item label="Sold" span={2}>{bookInfo.sold} </Descriptions.Item>
-                <Descriptions.Item label="Quantity" span={2}>{bookInfo.quantity}</Descriptions.Item>
+                <Descriptions.Item label="Quantity">{bookInfo.quantity}</Descriptions.Item>
                 <Descriptions.Item label="Created At" span={2}>
                     {moment(bookInfo.createdAt).format('DD-MM-YY HH:mm:ss')}
                 </Descriptions.Item>
-                <Descriptions.Item label="Updated At" span={2}>
+                <Descriptions.Item label="Updated At">
                     {moment(bookInfo.updatedAt).format('DD-MM-YY HH:mm:ss')}
                 </Descriptions.Item>
             </Descriptions>

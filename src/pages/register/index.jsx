@@ -14,7 +14,6 @@ const RegisterPage = () => {
         setIsSubmit(true)
         let res = await handleRegister(fullName, email, password, phone)
         setIsSubmit(false)
-        console.log("check res", res)
         if (res?.data?._id) {
             message.success("Register successfully!")
             navigate("/login")

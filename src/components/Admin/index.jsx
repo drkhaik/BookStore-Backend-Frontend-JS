@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AppstoreOutlined,
   ExceptionOutlined,
@@ -15,10 +15,9 @@ import {
 import { Breadcrumb, Layout, Menu, theme, Dropdown, Space, message, Avatar } from 'antd';
 import './LayoutAdmin.scss';
 import { useSelector, useDispatch } from 'react-redux';
-import { Outlet, useNavigate, Link } from 'react-router-dom';
+import { Outlet, useNavigate, Link, useLocation, useMatch } from 'react-router-dom';
 // import { logoutAction } from '../../redux/authentication/authenticationSlice';
 import { handleLogoutReduxThunk } from '../../redux/authentication/authenticationSlice';
-
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -35,7 +34,7 @@ const itemsSidebar = [
     children: [
       {
         label: <Link to='/admin/user'>CRUD</Link>,
-        key: 'crud',
+        key: 'user',
         icon: <TeamOutlined />,
       },
       {
@@ -61,6 +60,7 @@ const LayoutAdmin = () => {
   const user = useSelector(state => state.authentication.user);
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const handleLogoutAction = () => {
     dispatch(handleLogoutReduxThunk());
@@ -69,7 +69,17 @@ const LayoutAdmin = () => {
   }
   const [collapsed, setCollapsed] = useState(false);
   const srcAvt = `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${user.avatar}`;
-
+  let newStr = location.pathname.replace("/admin/", "");
+  useEffect(() => {
+    let keyActiveByPath = location.pathname.replace("/admin/", "");
+    // console.log("check keyActive Path", keyActiveByPath)
+    if (keyActiveByPath === '/admin') {
+      setActiveMenu('dashboard');
+    } else {
+      setActiveMenu(keyActiveByPath);
+    }
+  }, [])
+  // console.log("check new str", newStr);
   const itemsDropdown = [
     {
       label: <Link to="/">Trang chủ</Link>,
@@ -94,12 +104,19 @@ const LayoutAdmin = () => {
       style={{ minHeight: '100vh' }}
       className="layout-admin"
     >
-      <Sider theme="light" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+      <Sider
+        theme="light"
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+      >
         <div style={{ height: 32, margin: 14, textAlign: 'center', fontSize: 17 }}>Admin</div>
         <div className="demo-logo-vertical" />
         <Menu
           theme="light"
-          defaultSelectedKeys={[activeMenu]}
+          // defaultSelectedKeys={[activeMenu]}
+          selectedKeys={[activeMenu]}
+          // activeKey={activeMenu}
           mode="inline"
           items={itemsSidebar}
           onClick={(e) => setActiveMenu(e.key)}

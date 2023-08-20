@@ -17,7 +17,6 @@ const LoginPage = () => {
         setIsSubmit(true)
         let res = await handleLogin(username, password, 5000);
         setIsSubmit(false)
-        console.log("check res and user info", res)
         if (res?.data) {
             localStorage.setItem('access_token', res.data.access_token)
             dispatch(loginAction(res.data.user))
@@ -81,7 +80,8 @@ const LoginPage = () => {
                                 <Button type="primary" htmlType="submit" className="login-form-button" loading={isSubmit}>
                                     Log in
                                 </Button>
-                                Or <a href="">register now!</a>
+                                <span style={{ margin: '0 0.5rem' }}>Or</span>
+                                <a href="" onClick={() => navigate("/register")}>Register now!</a>
                             </Form.Item>
                         </Form>
                     </section>

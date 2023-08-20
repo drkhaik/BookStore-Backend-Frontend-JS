@@ -22,38 +22,26 @@ import LayoutAdmin from './components/Admin';
 import OrderPage from './pages/order';
 import UserTable from './components/Admin/User/UserTable';
 import BookTable from './components/Admin/Book/BookTable';
+import History from './components/Order/History';
+import OrderTable from './components/Admin/Order/OrderTable';
 import './App.scss';
+import './styles/global.scss';
 
 const Layout = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  // console.log("check search Query app", searchQuery);
   return (
     <div className='wrapper'>
       <div className='container'>
-        <Header />
-        <Outlet />
+        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <div className='body-content'>
+          <Outlet context={[searchQuery, setSearchQuery]} />
+        </div>
         <Footer />
       </div>
     </div>
   )
 }
-
-// const LayoutAdmin = () => {
-//   const isAdminRoute = window.location.pathname.startsWith('/admin');
-//   const user = useSelector(state => state.authentication.user);
-//   const userRole = user.role;
-
-//   return (
-//     <>
-//       <div className='layout-app'>
-//         {isAdminRoute && userRole === 'ADMIN' && <Header />}
-//         {/* <Header /> */}
-//         <Outlet />
-//         <LayoutAdmin />
-//         {/* <Footer /> */}
-//         {isAdminRoute && userRole === 'ADMIN' && <Footer />}
-//       </div>
-//     </>
-//   )
-// }
 
 export default function App() {
   const dispatch = useDispatch();
@@ -61,9 +49,9 @@ export default function App() {
   const getAccount = async () => {
     if (window.location.pathname === '/login'
       || window.location.pathname === '/register'
+      || window.location.pathname === '/'
     ) return;
     const res = await fetchAccount();
-    // console.log("check res", res)
     dispatch(fetchInfoUserAction(res.data.user))
   }
 
@@ -87,6 +75,14 @@ export default function App() {
           path: "book/:slug",
           element: <BookPage />,
         },
+        {
+          path: "order/",
+          element: <ProtectedRoute> <OrderPage /> </ProtectedRoute>,
+        },
+        {
+          path: "history/",
+          element: <ProtectedRoute> <History /> </ProtectedRoute>,
+        },
       ],
     },
     {
@@ -102,15 +98,15 @@ export default function App() {
         },
         {
           path: "user/",
-          element: <UserTable />,
+          element: <ProtectedRoute> <UserTable /> </ProtectedRoute>,
         },
         {
           path: "book/",
-          element: <BookTable />,
+          element: <ProtectedRoute> <BookTable /></ProtectedRoute>,
         },
         {
           path: "order/",
-          element: <OrderPage />,
+          element: <ProtectedRoute> <OrderTable /> </ProtectedRoute>,
         },
       ],
     },

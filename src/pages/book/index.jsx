@@ -1,6 +1,5 @@
 import { useLocation } from "react-router-dom";
 import ViewDetail from "../../components/Book/ViewDetail";
-import HomeLoader from "../../components/Home/HomeLoader";
 import { handleGetDetailBookById } from "../../services/api";
 import { useEffect, useState } from "react";
 
@@ -11,7 +10,7 @@ const BookPage = () => {
 
     let params = new URLSearchParams(location.search);
     const id = params?.get("id");
-    console.log('check id', id)
+    // console.log('check id', id)
 
     useEffect(() => {
         getBookDetail(id);
@@ -24,7 +23,7 @@ const BookPage = () => {
             raw.images = getImages(raw);
             setTimeout(() => {
                 setDataBook(raw);
-            }, 2000);
+            }, 1000);
         }
     }
 
@@ -62,8 +61,6 @@ const BookPage = () => {
                 <ViewDetail
                     dataBook={dataBook}
                 />
-                {/* <BookLoader /> */}
-                {/* <HomeLoader /> */}
             </div>
 
         </>

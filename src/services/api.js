@@ -82,6 +82,53 @@ const handleGetDetailBookById = (id) => {
     return axios.get(`/api/v1/book/${id}`);
 }
 
+// ============= ORDER ================
+
+const handleCreateAnOrder = (data) => {
+    return axios.post(`/api/v1/order`, data)
+}
+
+const handleGetHistoryOrder = () => {
+    return axios.get(`/api/v1/history`);
+}
+
+// ============= NORMAL USER ================ 
+
+const handleCallAPIUploadAvatar = (fileImg) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append('fileImg', fileImg);
+    return axios({
+        method: 'post',
+        url: '/api/v1/file/upload',
+        data: bodyFormData,
+        headers: {
+            "Content-Type": "multipart/form-data",
+            "upload-type": "avatar"
+        },
+    });
+}
+
+const handleUpdateUserInfo = (fullName, phone, avatar, _id) => {
+    // console.log("check data of handleUpdateUserInfo", fullName, phone, avatar, _id);
+    return axios.put(`/api/v1/user`, {
+        fullName, phone, avatar, _id,
+    });
+}
+
+const handleCallAPIChangePassword = (email, oldpass, newpass) => {
+    return axios.post(`/api/v1/user/change-password`, {
+        email, oldpass, newpass
+    });
+}
+
+const handleCallAPIGetDataDashboard = () => {
+    return axios.get(`/api/v1/database/dashboard`);
+}
+
+const handleCallAPIGetListOrder = (query) => {
+    return axios.get(`/api/v1/order?${query}`)
+}
+
 export {
     handleRegister,
     handleLogin,
@@ -100,4 +147,14 @@ export {
     handleUpdateBook,
     handleDeleteBook,
     handleGetDetailBookById,
+
+    handleCreateAnOrder,
+    handleGetHistoryOrder,
+
+    handleCallAPIUploadAvatar,
+    handleUpdateUserInfo,
+    handleCallAPIChangePassword,
+
+    handleCallAPIGetDataDashboard,
+    handleCallAPIGetListOrder,
 }

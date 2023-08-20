@@ -1,24 +1,28 @@
 import ImageGallery from "react-image-gallery";
 import { useState, useRef } from "react";
 import "react-image-gallery/styles/scss/image-gallery.scss";
-import { Button, Rate, InputNumber, Avatar, Row, Col, Space } from 'antd';
+import { Button, Rate, InputNumber, Avatar, Row, Col, Space, message } from 'antd';
 import './ViewDetail.scss';
 import { FaShippingFast } from "react-icons/fa";
 import { PlusOutlined, ShopTwoTone, StarFilled, MinusOutlined } from '@ant-design/icons';
 import ModalGallery from "./ModalGallery";
 import { BsCartPlus } from 'react-icons/bs';
 import BookLoader from "./BookLoader";
+import { addToCart } from "../../redux/order/orderSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const ViewDetail = (props) => {
     const { dataBook } = props;
-    const [quantity, setQuantity] = useState(1)
+    const [quantity, setQuantity] = useState(1);
+
+    const dispatch = useDispatch();
 
     const [isOpenModal, setIsModalOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const refGallery = useRef(null);
 
     const images = dataBook?.images ?? [];
-    console.log("cehck data book", dataBook.price / 0.8)
+    // console.log("cehck data book", dataBook.price / 0.8)
 
     const handleOnClickGallery = () => {
         setIsModalOpen(true);
@@ -26,9 +30,37 @@ const ViewDetail = (props) => {
         //  refGallery?.current?.fullScreen()
     }
 
-    const onChange = (value) => {
-    };
-    console.log('changed', quantity);
+    const handlePlusMinusQuantity = (type) => {
+        if (type === 'plus') {
+            if (quantity === dataBook.quantity) return;
+            setQuantity(+quantity + 1);
+        } else {
+            if (quantity === 1) return;
+            setQuantity(quantity - 1);
+        }
+    }
+
+    const handleOnChangeQuantity = (value) => {
+        // console.log("check quantity", value);
+        if (value > dataBook.quantity || value < 1) return;
+        if (value === null) {
+            setQuantity(1)
+        }
+        setQuantity(value);
+    }
+
+    const handleAddToCart = (quantitySubmit, dataBookSubmit) => {
+        let d = {
+            quantity: quantitySubmit,
+            _id: dataBookSubmit._id,
+            detail: dataBookSubmit,
+            total: quantitySubmit * dataBookSubmit.price,
+            type: 'add'
+        }
+        dispatch(addToCart(d));
+        message.success("Sản phẩm đã được thêm vào giỏ hàng!");
+    }
+    // console.log('changed', quantity);
 
     return (
         <>
@@ -144,19 +176,32 @@ const ViewDetail = (props) => {
                                             </div>
                                         </div>
                                     </Col>
-                                    <Col span={12} style={{ padding: 10 }}>
+                                    <Col span={16} style={{ padding: 10 }}>
                                         <div className="quantity">
                                             <span className='title' style={{ marginRight: '10px' }}>Số lượng</span>
                                             <span className='input-number'>
-                                                <button ><MinusOutlined /></button>
-                                                <input defaultValue={1} />
-                                                <button><PlusOutlined /></button>
+                                                <button onClick={() => handlePlusMinusQuantity('minus')} ><MinusOutlined /></button>
+                                                <input
+                                                    // defaultValue={1}
+                                                    type="number"
+                                                    onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()}
+                                                    onPaste={(e) => e.preventDefault()}
+                                                    // onCut={(e) => e.preventDefault()}
+                                                    // onCopy={(e) => e.preventDefault()}
+                                                    value={quantity}
+                                                    onChange={(e) => handleOnChangeQuantity(e.target.value)}
+                                                />
+                                                <button onClick={() => handlePlusMinusQuantity('plus')}><PlusOutlined /></button>
                                             </span>
+                                            <span style={{ marginLeft: '10px', fontWeight: '300', fontSize: '13px' }}> {dataBook.quantity} sản phẩm có sẵn</span>
                                         </div>
                                     </Col>
                                     <Col md={24}>
                                         <div className='buy' style={{ padding: 10 }}>
-                                            <button className='cart'>
+                                            <button
+                                                className='cart'
+                                                onClick={() => handleAddToCart(quantity, dataBook)}
+                                            >
                                                 <BsCartPlus className='icon-cart' />
                                                 <span>Thêm vào giỏ hàng</span>
                                             </button>

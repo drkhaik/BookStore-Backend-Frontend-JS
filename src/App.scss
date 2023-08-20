@@ -7,13 +7,19 @@ body{
     background-color: #f5f5f5;
     .container{
         margin: 0 50px;
+        .body-content {
+            min-height: 35rem;
+        }
     }
 }
 
 @media screen and (max-width: 1200px) {
     .wrapper{
         .container {
-            margin: 0 20px; 
+            margin: 0 20px;
+            .body-content {
+                min-height: 35rem;
+            }
         }
     }
 }
@@ -22,6 +28,9 @@ body{
     .wrapper{
         .container {
             margin: 0 10px;
+            .body-content {
+                min-height: 55rem;
+            }
         }
     }
 }

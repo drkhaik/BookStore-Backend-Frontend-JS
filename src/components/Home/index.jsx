@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { FilterTwoTone, ReloadOutlined } from '@ant-design/icons';
-import { Row, Col, Form, Checkbox, Divider, InputNumber, Button, Rate, Tabs, Pagination, Drawer, Space, Spin } from 'antd';
+import {
+    Row, Col, Form, Checkbox, Divider, InputNumber, Button, Rate, Tabs,
+    Pagination, Drawer, Space, Spin, Empty, Skeleton
+} from 'antd';
 // import { FaUserSecret, FaCloudSun, BiSolidCricketBall } from 'react-icons/fa';
 import './home.scss';
 import { handleGetBookCategory, handleGetBookWithPaginate } from '../../services/api';
-import { useNavigate } from 'react-router-dom';
-import HomeLoader from './HomeLoader';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 
 
 const Home = () => {
@@ -22,6 +24,57 @@ const Home = () => {
 
     const [KeyTab, setKeyTab] = useState("");
     const navigate = useNavigate();
+
+    const [searchQuery, setSearchQuery] = useOutletContext();
+
+    useEffect(() => {
+        const getBookCategory = async () => {
+            setIsLoading(true)
+            const res = await handleGetBookCategory();
+            if (res && res.data) {
+                let d = res.data.map(item => {
+                    return { label: item, value: item }
+                })
+                setListCategory(d);
+            }
+            setIsLoading(false)
+        }
+        getBookCategory();
+    }, [])
+
+    useEffect(() => {
+        fetchBookWithPagination();
+    }, [currentPage, pageSizeNumber, filter, sortQuery, searchQuery])
+
+    const fetchBookWithPagination = async () => {
+        setIsLoading(true);
+        let query = `current=${currentPage}&pageSize=${pageSizeNumber}`;
+        if (filter) {
+            query += `${filter}`;
+            // console.log("check query search", query);
+        }
+        if (sortQuery) {
+            query += `${sortQuery}`;
+            // console.log("check query sort", query);
+        }
+        if (searchQuery) {
+            query += `&mainText=/${searchQuery}/i`;
+        }
+        const res = await handleGetBookWithPaginate(query);
+        if (res && res.data) {
+            setAllDataBooks(res.data.result);
+            setTotal(res.data.meta.total)
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        // const abc = () => {
+        //     setOpenDrawer(false)
+        // }
+        window.addEventListener("resize", setOpenDrawer(false))
+    }, []);
+
 
     const handleChangeFilter = (changedValuesCategory, values) => {
         // console.log(">>> check handleChangeFilter", changedValuesCategory, values);
@@ -86,52 +139,6 @@ const Home = () => {
 
     const [openDrawer, setOpenDrawer] = useState(false);
 
-    useEffect(() => {
-        const getBookCategory = async () => {
-            setIsLoading(true)
-            const res = await handleGetBookCategory();
-            if (res && res.data) {
-                let d = res.data.map(item => {
-                    return { label: item, value: item }
-                })
-                setListCategory(d);
-            }
-            setIsLoading(false)
-        }
-        getBookCategory();
-    }, [])
-
-    useEffect(() => {
-        fetchBookWithPagination();
-    }, [currentPage, pageSizeNumber, filter, sortQuery])
-
-    const fetchBookWithPagination = async () => {
-        setIsLoading(true);
-        let query = `current=${currentPage}&pageSize=${pageSizeNumber}`;
-        if (filter) {
-            query += `${filter}`;
-            // console.log("check query search", query);
-        }
-        if (sortQuery) {
-            query += `${sortQuery}`;
-            // console.log("check query sort", query);
-        }
-        const res = await handleGetBookWithPaginate(query);
-        if (res && res.data) {
-            setAllDataBooks(res.data.result);
-            setTotal(res.data.meta.total)
-            setIsLoading(false);
-        }
-    }
-
-    useEffect(() => {
-        // const abc = () => {
-        //     setOpenDrawer(false)
-        // }
-        window.addEventListener("resize", setOpenDrawer(false))
-        // console.log("check use effect   ")
-    }, []);
-
     const nonAccentVietnamese = (str) => {
         str = str.replace(/A|Á|À|Ã|Ạ|Â|Ấ|Ầ|Ẫ|Ậ|Ă|Ắ|Ằ|Ẵ|Ặ/g, "A");
         str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
@@ -189,6 +196,7 @@ const Home = () => {
                         onClick={() => {
                             setFilter("")
                             setSortQuery(KeyTab)
+                            setSearchQuery("")
                             // setDefautKeyTab("&sort=-sold")
                             form.resetFields()
                         }}
@@ -297,103 +305,96 @@ const Home = () => {
 
     return (
         <div className="homepage-container" style={{ maxWidth: 1440, margin: '0 auto' }}>
-            {allDataBooks && allDataBooks.length > 0 ?
+            <Row style={{ gap: 20 }}>
+                <Col xs={0} sm={0} md={4} className='sidebar'>
+                    <Filter
+                        type="computer"
+                    />
+                </Col>
 
-                <Row style={{ gap: 20 }}>
-                    <Col xs={0} sm={0} md={4} className='sidebar'>
-                        {/* <div>
-
-                    </div> */}
-                        <Filter
-                            type="computer"
-                        />
+                <Col md={19} className='content'>
+                    <Tabs
+                        // defaultActiveKey={defaultKeyTab}
+                        items={items}
+                        style={{ marginTop: "5px", marginLeft: "10px" }}
+                        onChange={(key) => { setSortQuery(key), setKeyTab(key) }}
+                    />
+                    <Col xs={24} sm={24} md={0}>
+                        <div className="" onClick={() => {
+                            setOpenDrawer(true)
+                        }}><FilterTwoTone style={{ fontSize: '18px' }} /> Lọc </div>
+                        <Divider style={{ margin: "10px 0" }} />
                     </Col>
-
-                    <Col md={19} className='content'>
-                        <Tabs
-                            // defaultActiveKey={defaultKeyTab}
-                            items={items}
-                            style={{ marginTop: "5px", marginLeft: "10px" }}
-                            onChange={(key) => { setSortQuery(key), setKeyTab(key) }}
-                        />
-                        <Col xs={24} sm={24} md={0}>
-                            <div className="" onClick={() => {
-                                setOpenDrawer(true)
-                            }}><FilterTwoTone style={{ fontSize: '18px' }} /> Lọc </div>
-                            <Divider style={{ margin: "10px 0" }} />
-                        </Col>
+                    <Row className='customize-row'>
                         {isLoading === true
                             ?
-                            <div style={{
-                                height: '22rem',
-                                width: '100%',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center'
-                            }}>
-                                <Spin size='large' tip='Loading...' />
-                            </div>
+                            <>
+                                {[...Array(10)].map((e, index) => {
+                                    return (
+                                        <div key={index} className="" style={{ width: 'calc(20% - 8px)' }}>
+                                            <Skeleton.Input
+                                                active={true}
+                                                block={true}
+                                                style={{ width: '100%', height: '22rem' }}
+                                            />
+                                        </div>
+                                    )
+                                })}
+                            </>
+
                             :
-                            <Row className='customize-row'>
+                            <>
                                 {allDataBooks && allDataBooks.length > 0
-                                    && allDataBooks.map((item, index) => {
-                                        return (
-                                            <div className="column" key={`book-${index}`} onClick={() => handleRedirectViewDetailBook(item)}>
-                                                <div className='thumbnail' style={{ marginTop: '15px' }}>
-                                                    <img src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item.thumbnail}`} alt="thumbnail book" />
-                                                </div>
-                                                <div className='info'>
-                                                    <div style={{ height: '5rem' }}>
-                                                        <div className='text' title={item.mainText}> {item.mainText} </div>
-                                                        <div className='rating'>
-                                                            <Rate value={5} disabled style={{ color: '#ffce3d', fontSize: 10 }} />
-                                                            <span>Đã bán {item.sold}</span>
+                                    ?
+                                    <>
+                                        {allDataBooks.map((item, index) => {
+                                            return (
+                                                <div className="column" key={`book-${index}`} onClick={() => handleRedirectViewDetailBook(item)}>
+                                                    <div className='thumbnail' style={{ marginTop: '15px' }}>
+                                                        <img src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item.thumbnail}`} alt="thumbnail book" />
+                                                    </div>
+                                                    <div className='info'>
+                                                        <div style={{ height: '5rem' }}>
+                                                            <div className='text' title={item.mainText}> {item.mainText} </div>
+                                                            <div className='rating'>
+                                                                <Rate value={5} disabled style={{ color: '#ffce3d', fontSize: 10 }} />
+                                                                <span>Đã bán {item.sold}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className='price'>
+                                                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item?.price ?? 0)}
                                                         </div>
                                                     </div>
-                                                    <div className='price'>
-                                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item?.price ?? 0)}
-                                                    </div>
                                                 </div>
-                                            </div>
-                                            // <></>
-                                        )
-                                    })
+                                            )
+                                        })}
+                                    </>
+                                    :
+                                    <>
+                                        <span style={{ margin: '2rem 0rem', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                            <Empty description={<> <p>Không có sản phẩm nào phù hợp!</p></>} />
+                                        </span>
+                                    </>
                                 }
 
-                                {/* <div className="column">
-                            <div className='wrapper'>
-                                <div className='thumbnail'>
-                                    <img src="http://localhost:8080/images/book/3-931186dd6dcd231da1032c8220332fea.jpg" alt="thumbnail book" />
-                                </div>
-                                <div className='text'>Tư Duy Về Tiền Bạc - Những Lựa Chọn Tài Chính Đúng Đắn Và Sáng Suốt Hơn</div>
-                                <div className='rating'>
-                                    <Rate value={5} disabled style={{ color: '#ffce3d', fontSize: 10 }} />
-                                    <span>Đã bán 1k</span>
-                                </div>
-                                <div className='price'>
-                                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(70000)}
-                                </div>
-                            </div>
-                        </div> */}
-                            </Row>
+                            </>
                         }
-                        <Row style={{ display: 'flex', justifyContent: 'center' }}>
-                            <Pagination
-                                current={currentPage}
-                                pageSize={pageSizeNumber}
-                                total={total}
-                                showSizeChanger={true}
-                                // onShowSizeChange={onShowSizeChange}
-                                onChange={(p, s) => handleChangeCurrentPage({ current: p, pageSize: s })}
-                                // onChange={(page, pageSize) => handleChangeCurrentPage(page, pageSize)}
-                                responsive
-                            />
-                        </Row>
-                    </Col>
-                </Row>
-                :
-                <HomeLoader />
-            }
+                    </Row>
+
+                    <Row style={{ display: 'flex', justifyContent: 'center' }}>
+                        <Pagination
+                            current={currentPage}
+                            pageSize={pageSizeNumber}
+                            total={total}
+                            showSizeChanger={true}
+                            // onShowSizeChange={onShowSizeChange}
+                            onChange={(p, s) => handleChangeCurrentPage({ current: p, pageSize: s })}
+                            // onChange={(page, pageSize) => handleChangeCurrentPage(page, pageSize)}
+                            responsive
+                        />
+                    </Row>
+                </Col>
+            </Row>
             <Drawer
                 // title="Basic Drawer"
                 placement={"right"}

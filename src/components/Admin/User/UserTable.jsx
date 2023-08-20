@@ -14,7 +14,7 @@ import { handleDeleteUser } from '../../../services/api';
 const UserTable = () => {
 
     const [isLoading, setIsLoading] = useState(false);
-    const [dataUser, setDataUser] = useState([]);
+    const [dataUser, setAllDataUser] = useState([]);
     const [current, setCurrent] = useState(1);
     const [pageSizeNumber, setPageSizeNumber] = useState(4);
     const [total, setTotal] = useState(0);
@@ -146,7 +146,18 @@ const UserTable = () => {
         }
         const res = await handleGetUserWithPaginate(query);
         if (res && res.data) {
-            setDataUser(res.data.result);
+            let data = res.data.result;
+            let dataUsers = [];
+            // https://stackoverflow.com/questions/51703111/each-record-in-table-should-have-a-unique-key-prop-or-set-rowkey-to-an-uniqu
+            for (let index = 0; index < data.length; index++) {
+                const item = data[index];
+                const newItem = {
+                    ...item,
+                    key: index + 1,
+                };
+                dataUsers.push(newItem);
+            }
+            setAllDataUser(dataUsers);
             setTotal(res.data.meta.total)
             setIsLoading(false);
         }

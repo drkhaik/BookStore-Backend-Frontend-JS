@@ -7,7 +7,10 @@ const PermitBasedOnRole = (props) => {
     const isAdminRoute = window.location.pathname.startsWith('/admin');
     const user = useSelector(state => state.authentication.user)
     const userRole = user.role;
-    if (isAdminRoute && userRole === 'ADMIN') {
+    if (
+        isAdminRoute && userRole === 'ADMIN' || // path: admin/book role: admin
+        !isAdminRoute && (userRole === 'USER' || userRole === 'ADMIN') // path: order  role: user 
+    ) {
         return (<> {props.children} </>)
     } else {
         return (<> <NotPermitted /> </>)

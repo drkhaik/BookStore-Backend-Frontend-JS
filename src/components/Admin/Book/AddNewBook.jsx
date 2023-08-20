@@ -38,14 +38,6 @@ const AddNewBook = (props) => {
 
     }, [])
 
-    // console.log("check render")
-    // const onChange = (value) => {
-    //     console.log(`selected ${value}`);
-    // };
-
-    // const onSearch = (value) => {
-    //     console.log('search:', value);
-    // };
     const getBase64 = (img, callback) => {
         const reader = new FileReader();
         reader.addEventListener('load', () => callback(reader.result));
@@ -55,11 +47,22 @@ const AddNewBook = (props) => {
 
     const handlePreview = async (file) => {
         // console.log("check file of handle preview", file)
-        getBase64(file.originFileObj, (url) => {
-            setPreviewImage(url);
-            setPreviewOpen(true);
-            setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
-        });
+        // getBase64(file.originFileObj, (url) => {
+        //     setPreviewImage(url);
+        //     setPreviewOpen(true);
+        //     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+        // });
+        if (!file.url && !file.preview && file.originFileObj) {
+            // file.preview = await getBase64(file.originFileObj);
+            getBase64(file.originFileObj, (url) => {
+                setPreviewImage(url);
+                setPreviewOpen(true);
+                setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+            });
+        }
+        setPreviewImage(file.url || file.preview);
+        setPreviewOpen(true);
+        setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
     };
 
     const beforeUpload = (file) => {
@@ -74,6 +77,7 @@ const AddNewBook = (props) => {
         return isJpgOrPng && isLt2M;
     };
     const handleChange = (info, type) => {
+        console.log("check file", info)
         if (info.file.status === 'uploading') {
             type ? setLoadingSlider(true) : setLoading(true);
             return;
@@ -93,9 +97,11 @@ const AddNewBook = (props) => {
         if (res && res.data) {
             setDataThumbnail([{
                 name: res.data.fileUploaded,
-                uid: file.uid
+                uid: file.uid,
+                // status: 'done',
+                // url: `${import.meta.env.VITE_BACKEND_URL}/images/book/${res.data.fileUploaded}`,
             }])
-            onSuccess('ok')
+            onSuccess('ok');
         } else {
             onError('Upload file failed!');
         }
@@ -299,6 +305,7 @@ const AddNewBook = (props) => {
                                     className="avatar-uploader"
                                     maxCount={1}
                                     multiple={false}
+                                    // fileList={dataThumbnail}
                                     // showUploadList={false}
                                     customRequest={handleUploadFileThumbnail}
                                     beforeUpload={beforeUpload}
@@ -325,6 +332,7 @@ const AddNewBook = (props) => {
                                     name="slider"
                                     multiple
                                     listType="picture-card"
+                                    // fileList={dataSlider}
                                     customRequest={handleUploadFileSlider}
                                     beforeUpload={beforeUpload}
                                     onPreview={handlePreview}
